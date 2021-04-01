@@ -6,6 +6,19 @@ const Search = () => {
 
 	useEffect(() => {
 		//make request to wikipedia api
+		let baseUrl = "https://en.wikipedia.org/w/api.php";
+		const search = async () => {
+			await axios.get(baseUrl, {
+				params: {
+					action: "query",
+					list: "search",
+					origin: "*",
+					format: "json",
+					srsearch: term,
+				},
+			});
+		};
+		search();
 	}, [term]);
 
 	return (
