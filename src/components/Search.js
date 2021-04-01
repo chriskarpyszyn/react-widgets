@@ -3,12 +3,13 @@ import axios from "axios";
 
 const Search = () => {
 	const [term, setTerm] = useState("");
+	const [results, setResults] = useState([]);
 
 	useEffect(() => {
 		//make request to wikipedia api
 		let baseUrl = "https://en.wikipedia.org/w/api.php";
 		const search = async () => {
-			await axios.get(baseUrl, {
+			const { data } = await axios.get(baseUrl, {
 				params: {
 					action: "query",
 					list: "search",
@@ -17,8 +18,11 @@ const Search = () => {
 					srsearch: term,
 				},
 			});
+			setResults(data.query.search);
 		};
-		search();
+		if (term) {
+			search();
+		}
 	}, [term]);
 
 	return (
