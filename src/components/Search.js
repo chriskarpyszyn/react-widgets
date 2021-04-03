@@ -26,14 +26,21 @@ const Search = () => {
 	}, [term]);
 
 	const renderedResults = results.map((result) => {
+		const regex = /(<([^>]+)>)|(&quot;)/gi;
+		const cleanSnippet = result.snippet.replace(regex, "");
 		return (
 			<div key={result.pageid} className="item">
+				<div className="right floated content">
+					<a
+						className="ui button"
+						href={`https://en.wikipedia.org?curid=${result.pageid}`}
+					>
+						Nav to Page
+					</a>
+				</div>
 				<div className="content">
 					<div className="header">{result.title}</div>
-					{/*potential for XSS, fix if using this in production*/}
-					<span
-						dangerouslySetInnerHTML={{ __html: result.snippet }}
-					/>
+					{cleanSnippet}
 				</div>
 			</div>
 		);
